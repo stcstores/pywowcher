@@ -8,6 +8,7 @@ class EchoTest(BaseAPIMethod):
     """The Echo Test API method."""
 
     uri = "/v1/echo"
+    method = BaseAPIMethod.POST
 
     def get_data(self, data):
         """Make an Echo test with data."""

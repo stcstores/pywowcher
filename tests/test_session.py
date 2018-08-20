@@ -82,20 +82,29 @@ class TestAPIMethod(TestCredentialsFileExists):
     """Test the pywowhcer.api_methods.api_method.BaseAPIMethod class."""
 
     @requests_mock.mock()
-    def test_make_requestMethod(self, m):
+    def test_post_request(self, m):
         """Test the WowcherAPISession.make_request method."""
         test_uri = "test_uri"
 
         class TestMethod(BaseAPIMethod):
             uri = test_uri
-
-            def get_data(self):
-                return {}
-
-            def process_response(self, response):
-                return response
+            method = BaseAPIMethod.POST
 
         response_text = "hello"
         m.post(f"{WowcherAPISession.DOMAIN}{test_uri}", text=response_text)
+        response = TestMethod()
+        self.assertEqual(response.text, response_text)
+
+    @requests_mock.mock()
+    def test_get_request(self, m):
+        """Test the WowcherAPISession.make_request method."""
+        test_uri = "test_uri"
+
+        class TestMethod(BaseAPIMethod):
+            uri = test_uri
+            method = BaseAPIMethod.GET
+
+        response_text = "hello"
+        m.get(f"{WowcherAPISession.DOMAIN}{test_uri}", text=response_text)
         response = TestMethod()
         self.assertEqual(response.text, response_text)
