@@ -4,7 +4,6 @@ import base64
 import logging
 import os
 
-import requests
 import yaml
 
 logger = logging.getLogger(__name__)
@@ -15,24 +14,8 @@ class WowcherAPISession:
 
     WOWCHER_CREDENTIALS_FILENAME = "wowcher_credentials.yml"
     DOMAIN = "http://api.staging.redemption.wowcher.co.uk"
-
-    @classmethod
-    def make_request(cls, request, data):
-        """
-        Make an API request.
-
-        Args:
-            request: The API Method object. (Instance of BaseAPIMethod).
-            data: Dict of data to send with the request. (JSON compatible).
-        """
-        cls.get_credentials()
-        headers = cls.get_auth_headers()
-        url = f"{cls.DOMAIN}{request.uri}"
-        logger.info(f"Making request to {url}")
-        logger.debug(f"Sending request data {data} to {url}")
-        response = requests.post(url, data=data, headers=headers)
-        logger.debug(f"Recieved response from {url}: {response.text}")
-        return response
+    key = None
+    secret_token = None
 
     @classmethod
     def get_auth_headers(cls):
@@ -58,6 +41,8 @@ class WowcherAPISession:
     @classmethod
     def get_credentials(cls):
         """Find API credentials file and load credentials from it."""
+        if cls.key and cls.secret_token is not None:
+            return
         credentials_path = cls.get_wowcher_credentials_file()
         if credentials_path is None:
             logging.error("Wowcher credentials file not found.")
@@ -75,13 +60,13 @@ class WowcherAPISession:
         with open(credentials_path, "r") as config_file:
             config = yaml.load(config_file)
         try:
-            cls.add_credentials(**config)
+            cls.set_credentials(**config)
         except Exception as e:
             logger.error(f"Could not load config from {credentials_path}.")
             raise e
 
     @classmethod
-    def add_credentials(cls, key=None, secret_token=None):
+    def set_credentials(cls, key=None, secret_token=None):
         """Set the domain, username and password."""
         if key is not None:
             cls.key = key
