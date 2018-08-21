@@ -7,6 +7,7 @@ import unittest
 
 import yaml
 
+import pywowcher
 import requests_mock
 from pywowcher import WowcherAPISession
 from pywowcher.api_methods.api_method import BaseAPIMethod
@@ -81,30 +82,50 @@ class TestCredentialsFileExists(PywowcherTestCase):
 class TestAPIMethod(TestCredentialsFileExists):
     """Test the pywowhcer.api_methods.api_method.BaseAPIMethod class."""
 
+    TEST_URI = "test_uri"
+
+    def get_test_api_method(self, uri, method):
+        """Return a new API method."""
+        API_method = BaseAPIMethod
+        API_method.uri = uri
+        API_method.method = method
+        return API_method
+
     @requests_mock.mock()
     def test_post_request(self, m):
         """Test the WowcherAPISession.make_request method."""
-        test_uri = "test_uri"
-
-        class TestMethod(BaseAPIMethod):
-            uri = test_uri
-            method = BaseAPIMethod.POST
-
         response_text = "hello"
-        m.post(f"{WowcherAPISession.DOMAIN}{test_uri}", text=response_text)
-        response = TestMethod()
+        API_method = self.get_test_api_method(self.TEST_URI, BaseAPIMethod.POST)
+        m.post(API_method.get_URL(), text=response_text)
+        response = API_method()
         self.assertEqual(response.text, response_text)
+
+    def test_method_get_URL(self):
+        """Test the get_URL method of BaseAPIMethod."""
+        expected_URL = f"{WowcherAPISession.DOMAIN}{self.TEST_URI}"
+        API_method = self.get_test_api_method(self.TEST_URI, BaseAPIMethod.POST)
+        self.assertEqual(expected_URL, API_method.get_URL())
 
     @requests_mock.mock()
     def test_get_request(self, m):
         """Test the WowcherAPISession.make_request method."""
-        test_uri = "test_uri"
-
-        class TestMethod(BaseAPIMethod):
-            uri = test_uri
-            method = BaseAPIMethod.GET
-
         response_text = "hello"
-        m.get(f"{WowcherAPISession.DOMAIN}{test_uri}", text=response_text)
-        response = TestMethod()
+        API_method = self.get_test_api_method(self.TEST_URI, BaseAPIMethod.GET)
+        m.get(API_method.get_URL(), text=response_text)
+        response = API_method()
         self.assertEqual(response.text, response_text)
+
+
+class TestEchoTestMethod(TestCredentialsFileExists):
+    """Test the EchoTest API method."""
+
+    MESSAGE = {"one": "1", "two": "2"}
+    RESPONSE = {"message": "Echo Test Received", "data": MESSAGE}
+    API_METHOD = pywowcher.EchoTest
+
+    @requests_mock.mock()
+    def test_echo_test_method(self, m):
+        """Test the EchoTest API method."""
+        m.post(self.API_METHOD.get_URL(), json=self.RESPONSE)
+        response = self.API_METHOD(self.MESSAGE)
+        self.assertEqual(response, self.MESSAGE)

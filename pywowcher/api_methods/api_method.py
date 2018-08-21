@@ -34,11 +34,16 @@ class BaseAPIMethod:
         """Process the request response."""
         return response
 
+    @classmethod
+    def get_URL(cls):
+        """Return the complete URL for the API method."""
+        return f"{WowcherAPISession.DOMAIN}{cls.uri}"
+
     def make_request(self):
         """Make an API request."""
         WowcherAPISession.get_credentials()
         headers = WowcherAPISession.get_auth_headers()
-        url = f"{WowcherAPISession.DOMAIN}{self.uri}"
+        url = self.get_URL()
         logger.info(f"Making request to {url}")
         logger.debug(f"Sending request data {self.data} to {url}")
         request_kwargs = {
