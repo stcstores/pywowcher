@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class WowcherAPISession:
     """Holds the API credentials and the session object."""
 
-    WOWCHER_CREDENTIALS_FILENAME = "wowcher_credentials.yml"
+    WOWCHER_CREDENTIALS_FILENAME = "wowcher_credentials.yaml"
     DOMAIN = "http://api.staging.redemption.wowcher.co.uk"
     key = None
     secret_token = None
