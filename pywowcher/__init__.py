@@ -4,4 +4,4 @@ import logging
 from .session import WowcherAPISession  # NOQA
 from .api_methods import *  # NOQA
 
-logging.basicConfig(level=logging.DEBUG)
+logging.getLogger(__name__).addHandler(logging.NullHandler())
