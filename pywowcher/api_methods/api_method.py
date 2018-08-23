@@ -15,12 +15,15 @@ class BaseAPIMethod:
     POST = "post"
     GET = "get"
 
-    def __new__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """Create API request."""
-        self.data = self.get_data(self, *args, **kwargs)
-        self.params = self.get_params(self, *args, **kwargs)
-        self.response = self.make_request(self)
-        return self.process_response(self, self.response)
+        self.data = self.get_data(*args, **kwargs)
+        self.params = self.get_params(*args, **kwargs)
+
+    def call(self):
+        """Make the API request."""
+        self.response = self.make_request()
+        return self.process_response(self.response)
 
     def get_data(self, *args, **kwargs):
         """Return body data for the request."""
