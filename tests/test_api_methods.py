@@ -51,7 +51,7 @@ class TestEchoTestMethod(PywowcherTestCase):
 
     MESSAGE = {"one": "1", "two": "2"}
     RESPONSE = {"message": "Echo Test Received", "data": MESSAGE}
-    API_METHOD = pywowcher.EchoTest
+    API_METHOD = pywowcher.api_methods.EchoTest
 
     @requests_mock.mock()
     def test_echo_test_method(self, m):
@@ -116,7 +116,7 @@ class TestOrdersMethod(PywowcherTestCase):
 
     def test_Orders_get_data_method(self):
         """Test the get_data method of Orders."""
-        method = pywowcher.Orders(
+        method = pywowcher.api_methods.Orders(
             page=self.PAGE,
             per_page=self.PER_PAGE,
             from_date=self.FROM_DATE,
@@ -137,8 +137,8 @@ class TestOrdersMethod(PywowcherTestCase):
     @requests_mock.mock()
     def test_process_response_method(self, m):
         """Test the process_response method of Orders."""
-        m.get(pywowcher.Orders.get_URL(), json=self.RESPONSE)
-        response = pywowcher.Orders(
+        m.get(pywowcher.api_methods.Orders.get_URL(), json=self.RESPONSE)
+        response = pywowcher.api_methods.Orders(
             page=self.PAGE,
             per_page=self.PER_PAGE,
             from_date=self.FROM_DATE,
