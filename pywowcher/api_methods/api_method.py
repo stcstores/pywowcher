@@ -59,5 +59,6 @@ class BaseAPIMethod:
             response = requests.post(**request_kwargs)
         else:
             response = requests.get(**request_kwargs)
+        response.raise_for_status()
         logger.debug(f"Recieved response from {url}: {response.text}")
         return response
