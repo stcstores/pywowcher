@@ -56,10 +56,26 @@ def orders_method_response():
         return json.load(f)
 
 
-def mock_echo_test(requests_mock, message):
-    """Set up a mocked echo test."""
-    response = echo_test_response(message)
-    requests_mock.post(pywowcher.api_methods.EchoTest.get_URL(), json=response)
+def mock_echo_test(requests_mock, message=None, response=None):
+    """Set up a mocked echo test request."""
+    if message is not None:
+        response = {"json": echo_test_response(message)}
+    elif response is None:
+        raise Exception("Either kwargs or message must be passed")
+    if isinstance(response, dict):
+        response = [response]
+    requests_mock.post(pywowcher.api_methods.EchoTest.get_URL(), response)
+
+
+def mock_orders(requests_mock, response_data=None, response=None):
+    """Set up a mocked orders request."""
+    if response is None and response_data is None:
+        response = {"json": orders_method_response()}
+    elif response_data is not None:
+        response = {"json": response_data}
+    if isinstance(response, dict):
+        response = [response]
+    requests_mock.get(pywowcher.api_methods.Orders.get_URL(), response)
 
 
 def echo_test_response(message):
