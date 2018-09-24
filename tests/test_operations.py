@@ -44,3 +44,11 @@ def test_get_orders_handles_pagination(requests_mock):
     returned_value = pywowcher.get_orders(deal_id=1)
     assert isinstance(returned_value, list)
     assert len(returned_value) == 300
+
+
+def test_wowcher_order_repr():
+    """Test the wowcher order __repr__ method."""
+    order_data = test_api_methods.orders_method_response()["data"]["data"][0]
+    order = pywowcher.operations.getorders.WowcherOrder(order_data)
+    wowcher_code = order_data["wowcher_code"]
+    assert order.__repr__() == f"Wowcher Order {wowcher_code}"
