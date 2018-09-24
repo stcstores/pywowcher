@@ -2,11 +2,16 @@
 
 init:
 	pip install pipenv --upgrade
-	pipenv install --dev --skip-lock
+	pipenv sync --dev
 
 reinit:
 	pipenv --rm
 	make init
+
+update_environment:
+	pipenv --rm
+	pipenv lock
+	pipenv sync --dev
 
 test:
 	pipenv run pytest
@@ -28,3 +33,7 @@ docs:
 
 lock:
 	pipenv lock -dr > requirements.txt
+
+coverage:
+	pipenv run pytest --cov=pywowcher tests/
+	pipenv run coverage html
