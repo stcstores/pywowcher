@@ -2,52 +2,67 @@
 
 
 import os
-import tempfile
+import pytest
 
 import yaml
 
-from pywowcher import WowcherAPISession
+import pywowcher
 
-from .pywowcher_test_case import PywowcherTestCase
-
-
-class TestCredentialsFileDoesNotExist(PywowcherTestCase):
-    """Tests for when no credentials file exists."""
-
-    def create_working_directory(self):
-        """Set the working directory to a temp dir without a credentials file."""
-        os.chdir(tempfile.mkdtemp())
-
-    def test_get_credentials_fails_when_no_file_is_present(self):
-        """Test that getting credentials throws and error when no credentials file exists."""
-        with self.assertRaises(FileNotFoundError):
-            WowcherAPISession.get_credentials()
-
-    def test_create_credentials_file(self):
-        """Test that the WowcherAPISession class can create a credentials file."""
-        WowcherAPISession.create_credentials_file(
-            key=self.key, secret_token=self.secret_token
-        )
-        filename = WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME
-        self.assertTrue(os.path.exists(filename))
-        with open(filename, "r") as config_file:
-            config = yaml.load(config_file)
-        self.assertEqual(config, {"key": self.key, "secret_token": self.secret_token})
+fake_key = "0ff52fd6-7860-4f07-bab5-5fa74d3b98f0"
+fake_secret_token = "16459c82-065a-4e51-b682-c784e404831d"
 
 
-class TestCredentialsFileExists(PywowcherTestCase):
-    """Tests when a credentials file exists."""
+@pytest.fixture
+def temporary_cwd(tmpdir):
+    """Use a temporary directory as the working directory."""
+    os.chdir(tmpdir.mkdir("temp_working_directory"))
 
-    def test_can_find_credentials_file(self):
-        """Test that Pywowcher can find the credentials file."""
-        found_path = WowcherAPISession.get_wowcher_credentials_file()
-        expected_path = os.path.join(
-            os.getcwd(), WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME
-        )
-        self.assertEqual(found_path, expected_path)
+    def create_temporary_working_directory(config_file=True):
+        if config_file is True:
+            pywowcher.WowcherAPISession.create_credentials_file(
+                key=fake_key, secret_token=fake_secret_token
+            )
+            pywowcher.WowcherAPISession.key = None
+            pywowcher.WowcherAPISession.secret_token = None
 
-    def test_session_can_load_credentials(self):
-        """Test that WowcherAPISession can load credentials from a file."""
-        WowcherAPISession.get_credentials()
-        self.assertEqual(WowcherAPISession.key, self.key)
-        self.assertEqual(WowcherAPISession.secret_token, self.secret_token)
+    return create_temporary_working_directory
+
+
+def test_get_credentials_fails_when_no_file_is_present(temporary_cwd):
+    """Test that getting credentials throws and error when no credentials file exists."""
+    temporary_cwd(config_file=False)
+    pywowcher.WowcherAPISession.key = None
+    pywowcher.WowcherAPISession.secret_token = None
+    with pytest.raises(FileNotFoundError):
+        pywowcher.WowcherAPISession.get_credentials()
+
+
+def test_create_credentials_file(temporary_cwd):
+    """Test that the WowcherAPISession class can create a credentials file."""
+    temporary_cwd(config_file=False)
+    pywowcher.WowcherAPISession.create_credentials_file(
+        key=fake_key, secret_token=fake_secret_token
+    )
+    filename = pywowcher.WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME
+    assert os.path.exists(filename)
+    with open(filename, "r") as config_file:
+        config = yaml.load(config_file)
+    assert config == {"key": fake_key, "secret_token": fake_secret_token}
+
+
+def test_can_find_credentials_file(temporary_cwd):
+    """Test that Pywowcher can find the credentials file."""
+    temporary_cwd(config_file=True)
+    found_path = pywowcher.WowcherAPISession.get_wowcher_credentials_file()
+    expected_path = os.path.join(
+        os.getcwd(), pywowcher.WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME
+    )
+    assert found_path == expected_path
+
+
+def test_session_can_load_credentials(temporary_cwd):
+    """Test that WowcherAPISession can load credentials from a file."""
+    temporary_cwd(config_file=True)
+    pywowcher.WowcherAPISession.get_credentials()
+    assert pywowcher.WowcherAPISession.key == fake_key
+    assert pywowcher.WowcherAPISession.secret_token == fake_secret_token
