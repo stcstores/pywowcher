@@ -1,13 +1,11 @@
 """Tests for Pywowcher API methods."""
 
 import datetime
-
-import pywowcher
+import json
+import os
 
 import pytest
-import os
-import json
-
+import pywowcher
 
 TEST_URI = "test_uri"
 
@@ -58,6 +56,12 @@ def orders_method_response():
         return json.load(f)
 
 
+def mock_echo_test(requests_mock, message):
+    """Set up a mocked echo test."""
+    response = echo_test_response(message)
+    requests_mock.post(pywowcher.api_methods.EchoTest.get_URL(), json=response)
+
+
 def echo_test_response(message):
     """Return the response from the Echo Test API method for a given message."""
     return {"message": "Echo Test Received", "data": message}
@@ -66,9 +70,7 @@ def echo_test_response(message):
 def test_echo_test_method(requests_mock):
     """Test the EchoTest API method."""
     message = {"one": "1", "two": "2"}
-    requests_mock.post(
-        pywowcher.api_methods.EchoTest.get_URL(), json=echo_test_response(message)
-    )
+    mock_echo_test(requests_mock, message)
     response = pywowcher.api_methods.EchoTest(message).call()
     assert response == message
 
