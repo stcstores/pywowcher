@@ -2,10 +2,10 @@
 
 
 import os
-import pytest
 
 import yaml
 
+import pytest
 import pywowcher
 
 fake_key = "0ff52fd6-7860-4f07-bab5-5fa74d3b98f0"
@@ -34,6 +34,15 @@ def test_get_credentials_fails_when_no_file_is_present(temporary_cwd):
     pywowcher.WowcherAPISession.key = None
     pywowcher.WowcherAPISession.secret_token = None
     with pytest.raises(FileNotFoundError):
+        pywowcher.WowcherAPISession.get_credentials()
+
+
+def test_exception_is_raised_when_config_file_is_malformed(temporary_cwd):
+    """Test that an exception is raised when the config file is malformed."""
+    temporary_cwd(config_file=False)
+    with open(pywowcher.WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME, "w") as f:
+        f.write("some text")
+    with pytest.raises(Exception):
         pywowcher.WowcherAPISession.get_credentials()
 
 
