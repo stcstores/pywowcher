@@ -14,6 +14,9 @@ class BaseAPIMethod:
 
     POST = "post"
     GET = "get"
+    PUT = "put"
+
+    request_methods = {POST: requests.post, GET: requests.get, PUT: requests.put}
 
     def __init__(self, *args, **kwargs):
         """Create API request."""
@@ -49,16 +52,13 @@ class BaseAPIMethod:
         url = self.get_URL()
         logger.info(f"Making request to {url}")
         logger.debug(f"Sending request data {self.data} to {url}")
-        request_kwargs = {
-            "url": url,
-            "data": self.data,
-            "params": self.params,
-            "headers": headers,
-        }
-        if self.method == self.POST:
-            response = requests.post(**request_kwargs)
-        else:
-            response = requests.get(**request_kwargs)
+        response = requests.request(
+            method=self.method,
+            url=url,
+            data=self.data,
+            params=self.params,
+            headers=headers,
+        )
         response.raise_for_status()
         logger.debug(f"Recieved response from {url}: {response.text}")
         return response
