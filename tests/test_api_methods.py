@@ -56,6 +56,11 @@ def orders_method_response():
         return json.load(f)
 
 
+def mock_status(requests_mock):
+    """Set up a mocked status request."""
+    requests_mock.put(pywowcher.api_methods.Status.get_URL())
+
+
 def mock_echo_test(requests_mock, message=None, response=None):
     """Set up a mocked echo test request."""
     if message is not None:
@@ -134,3 +139,24 @@ def test_process_response_method(requests_mock, orders_method_response):
         deal_id=DEAL_ID,
     ).call()
     assert response == orders_method_response
+
+
+def test_status_API_method(requests_mock):
+    """Test the Status API method."""
+    mock_status(requests_mock)
+    orders = [
+        {
+            "reference": "8UPGT3-KKQRNC",
+            "timestamp": 1234567890,
+            "status": 2,
+            "tracking_number": "JD1233230001012",
+            "shipping_vendor": "ROYAL_MAIL",
+            "shipping_method": "NEXT_DAY",
+        }
+    ]
+    request = pywowcher.api_methods.Status(orders=orders)
+    sent_data = request.get_data(orders=orders)
+    assert pywowcher.api_methods.Status.ORDERS in sent_data
+    assert sent_data[request.ORDERS][0]["reference"] == orders[0]["reference"]
+    response = request.call()
+    assert response.status_code == 200
