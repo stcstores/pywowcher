@@ -33,6 +33,13 @@ class Status(BaseAPIMethod):
 
     ORDERS = "orders"
 
+    REFERENCE = "reference"
+    TIMESTAMP = "timestamp"
+    STATUS = "status"
+    TRACKING_NUMBER = "tracking_number"
+    SHIPPING_VENDOR = "shipping_vendor"
+    SHIPPING_METHOD = "shipping_method"
+
     def get_data(self, *, orders):
         """Return data to be passed to the request."""
         return {self.ORDERS: orders}
