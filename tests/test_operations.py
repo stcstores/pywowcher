@@ -1,5 +1,6 @@
 """Tests for pywowhcer's main methods."""
 
+import pytest
 import pywowcher
 
 from . import test_api_methods
@@ -52,3 +53,26 @@ def test_wowcher_order_repr():
     order = pywowcher.operations.getorders.WowcherOrder(order_data)
     wowcher_code = order_data["wowcher_code"]
     assert order.__repr__() == f"Wowcher Order {wowcher_code}"
+
+
+def test_set_order_status_operation(requests_mock):
+    """Test the set_order_status operation."""
+    test_api_methods.mock_status(requests_mock)
+    orders = [
+        {
+            "reference": "8UPGT3-KKQRNC",
+            "timestamp": 1234567890,
+            "status": 2,
+            "tracking_number": "JD1233230001012",
+            "shipping_vendor": "ROYAL_MAIL",
+            "shipping_method": "NEXT_DAY",
+        }
+    ]
+    assert pywowcher.set_order_status(orders) is None
+
+
+def test_set_order_status_raises_for_malformed_order(requests_mock):
+    """Test the set_order_status operation raises an exception for an invalid order."""
+    orders = [{"reference": "8UPGT3-KKQRNC"}]  # Order data missing the status entry.
+    with pytest.raises(ValueError):
+        pywowcher.set_order_status(orders)
