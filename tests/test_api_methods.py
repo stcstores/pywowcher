@@ -120,8 +120,7 @@ class TestStatusAPIMethod(BasePywowcherTest):
             }
         ]
         request = pywowcher.api_methods.Status(orders=orders)
-        sent_data = request.get_data(orders=orders)
-        assert pywowcher.api_methods.Status.ORDERS in sent_data
-        assert sent_data[request.ORDERS][0]["reference"] == orders[0]["reference"]
+        assert pywowcher.api_methods.Status.ORDERS in request.json
+        assert request.json[request.ORDERS][0]["reference"] == orders[0]["reference"]
         response = request.call()
         assert response.status_code == 200

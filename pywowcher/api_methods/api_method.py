@@ -16,20 +16,35 @@ class BaseAPIMethod:
     GET = "get"
     PUT = "put"
 
+    response = None
+
+    data = None
+    json = None
+    params = None
+
     request_methods = {POST: requests.post, GET: requests.get, PUT: requests.put}
 
     def __init__(self, *args, **kwargs):
         """Create API request."""
-        self.data = self.get_data(*args, **kwargs)
-        self.params = self.get_params(*args, **kwargs)
+        self.prepare_data(*args, **kwargs)
 
     def call(self):
         """Make the API request."""
         self.response = self.make_request()
         return self.process_response(self.response)
 
+    def prepare_data(self, *args, **kwargs):
+        """Prepare request data."""
+        self.data = self.get_data(*args, **kwargs) or None
+        self.json = self.get_json(*args, **kwargs) or None
+        self.params = self.get_params(*args, **kwargs) or None
+
     def get_data(self, *args, **kwargs):
         """Return body data for the request."""
+        return {}
+
+    def get_json(self, *args, **kwargs):
+        """Return json data for the request."""
         return {}
 
     def get_params(self, *args, **kwargs):
@@ -52,13 +67,19 @@ class BaseAPIMethod:
         url = self.get_URL()
         logger.info(f"Making request to {url}")
         logger.debug(f"Sending request data {self.data} to {url}")
-        response = requests.request(
+        self.response = requests.request(
             method=self.method,
             url=url,
             data=self.data,
+            json=self.json,
             params=self.params,
             headers=headers,
         )
-        response.raise_for_status()
-        logger.debug(f"Recieved response from {url}: {response.text}")
-        return response
+        logger.debug(
+            (
+                f"Recieved response from {url} Status: "
+                f"{self.response.status_code} text: {self.response.text}"
+            )
+        )
+        self.response.raise_for_status()
+        return self.response

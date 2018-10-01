@@ -96,6 +96,9 @@ class BasePywowcherTest:
         """Set up a mocked status request."""
 
         def func():
-            requests_mock.put(pywowcher.api_methods.Status.get_URL())
+            requests_mock.put(
+                pywowcher.api_methods.Status.get_URL(),
+                json={"message": "Order status updated", "data": []},
+            )
 
         return func

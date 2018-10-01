@@ -40,6 +40,6 @@ class Status(BaseAPIMethod):
     SHIPPING_VENDOR = "shipping_vendor"
     SHIPPING_METHOD = "shipping_method"
 
-    def get_data(self, *, orders):
+    def get_json(self, *, orders):
         """Return data to be passed to the request."""
         return {self.ORDERS: orders}
