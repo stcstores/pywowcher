@@ -7,47 +7,6 @@ import pywowcher
 from .basetests import BasePywowcherTest
 
 
-class TestBaseAPIMethod(BasePywowcherTest):
-    """Tests for the base APIMethod class."""
-
-    TEST_URI = "test_uri"
-
-    def get_test_api_method(self, uri, method):
-        """Return a new API method."""
-        API_method = pywowcher.api_methods.api_method.BaseAPIMethod
-        API_method.uri = uri
-        API_method.method = method
-        return API_method
-
-    def test_method_get_URL(self):
-        """Test the get_URL method of BaseAPIMethod."""
-        expected_URL = f"{pywowcher.WowcherAPISession.DOMAIN}{self.TEST_URI}"
-        API_method = self.get_test_api_method(
-            self.TEST_URI, pywowcher.api_methods.api_method.BaseAPIMethod.POST
-        )
-        assert expected_URL == API_method.get_URL()
-
-    def test_post_request(self, requests_mock):
-        """Test the WowcherAPISession.make_request method."""
-        response_text = "hello"
-        API_method = self.get_test_api_method(
-            self.TEST_URI, pywowcher.api_methods.api_method.BaseAPIMethod.POST
-        )
-        requests_mock.post(API_method.get_URL(), text=response_text)
-        response = API_method().call()
-        assert response.text == response_text
-
-    def test_get_request(self, requests_mock):
-        """Test the WowcherAPISession.make_request method."""
-        response_text = "hello"
-        API_method = self.get_test_api_method(
-            self.TEST_URI, pywowcher.api_methods.api_method.BaseAPIMethod.GET
-        )
-        requests_mock.register_uri("GET", API_method.get_URL(), text=response_text)
-        response = API_method().call()
-        assert response.text == response_text
-
-
 class TestEchoTestAPIMethod(BasePywowcherTest):
     """Tests for the Echo Test API method."""
 
