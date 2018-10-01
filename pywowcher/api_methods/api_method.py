@@ -18,17 +18,24 @@ class BaseAPIMethod:
 
     response = None
 
+    data = None
+    params = None
+
     request_methods = {POST: requests.post, GET: requests.get, PUT: requests.put}
 
     def __init__(self, *args, **kwargs):
         """Create API request."""
-        self.data = self.get_data(*args, **kwargs)
-        self.params = self.get_params(*args, **kwargs)
+        self.prepare_data(*args, **kwargs)
 
     def call(self):
         """Make the API request."""
         self.response = self.make_request()
         return self.process_response(self.response)
+
+    def prepare_data(self, *args, **kwargs):
+        """Prepare request data."""
+        self.data = self.get_data(*args, **kwargs) or None
+        self.params = self.get_params(*args, **kwargs) or None
 
     def get_data(self, *args, **kwargs):
         """Return body data for the request."""
