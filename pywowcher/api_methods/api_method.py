@@ -16,6 +16,8 @@ class BaseAPIMethod:
     GET = "get"
     PUT = "put"
 
+    response = None
+
     request_methods = {POST: requests.post, GET: requests.get, PUT: requests.put}
 
     def __init__(self, *args, **kwargs):
@@ -52,13 +54,19 @@ class BaseAPIMethod:
         url = self.get_URL()
         logger.info(f"Making request to {url}")
         logger.debug(f"Sending request data {self.data} to {url}")
-        response = requests.request(
+        self.response = requests.request(
             method=self.method,
             url=url,
             data=self.data,
+            json=self.json,
             params=self.params,
             headers=headers,
         )
-        response.raise_for_status()
-        logger.debug(f"Recieved response from {url}: {response.text}")
-        return response
+        logger.debug(
+            (
+                f"Recieved response from {url} Status: "
+                f"{self.response.status_code} text: {self.response.text}"
+            )
+        )
+        self.response.raise_for_status()
+        return self.response
