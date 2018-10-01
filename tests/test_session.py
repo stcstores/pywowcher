@@ -3,10 +3,9 @@
 
 import os
 
-import yaml
-
 import pytest
 import pywowcher
+import yaml
 
 from .basetests import BasePywowcherTest
 

@@ -5,8 +5,9 @@ Used to retrieve orders from Wowcher. It returns a list of orders encapsulated b
 WowcherOrder class.
 """
 
-from pywowcher import api_methods
 import datetime
+
+from pywowcher import api_methods
 
 
 class WowcherItem:
