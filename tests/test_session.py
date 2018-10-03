@@ -66,3 +66,11 @@ class TestSession(BasePywowcherTest):
         pywowcher.session.get_credentials()
         assert pywowcher.session.key == self.fake_key
         assert pywowcher.session.secret_token == self.fake_secret_token
+
+    def test_session_adds_credentials_for_request(self):
+        """Test that WowcherAPISession loads credentials if they are missing and a request is made."""
+        assert pywowcher.session.key is None
+        assert pywowcher.session.secret_token is None
+        pywowcher.echo_test({"one": 1})
+        assert pywowcher.session.key is not None
+        assert pywowcher.session.secret_token is not None
