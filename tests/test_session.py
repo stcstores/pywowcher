@@ -74,3 +74,22 @@ class TestSession(BasePywowcherTest):
         pywowcher.echo_test({"one": 1})
         assert pywowcher.session.key is not None
         assert pywowcher.session.secret_token is not None
+
+    def test_can_set_session_credentials_manually(self):
+        """Test that session credentials can be set manually."""
+        key = "TEST KEY"
+        secret_token = "TEST TOKEN"
+        pywowcher.session.set_credentials(key=key, secret_token=secret_token)
+        assert pywowcher.session.key == key
+        assert pywowcher.session.secret_token == secret_token
+
+    def test_manually_set_credentials_are_not_overwritten(self):
+        """Test that session.get_credentials() does not overwrite existing credentials."""
+        key = "TEST KEY"
+        secret_token = "TEST TOKEN"
+        pywowcher.session.set_credentials(key=key, secret_token=secret_token)
+        assert pywowcher.session.key == key
+        assert pywowcher.session.secret_token == secret_token
+        pywowcher.session.get_credentials()
+        assert pywowcher.session.key == key
+        assert pywowcher.session.secret_token == secret_token
