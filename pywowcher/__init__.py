@@ -1,7 +1,7 @@
 """Pywowcher - A Wowcher API integration for Python."""
 
 import logging
-from .session import WowcherAPISession  # NOQA
+from .wowcher_session import session  # NOQA
 from . import api_methods  # NOQA
 from .operations import echo_test, get_orders, set_order_status  # NOQA
 

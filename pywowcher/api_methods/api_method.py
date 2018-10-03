@@ -4,7 +4,7 @@ import logging
 
 import requests
 
-from ..session import WowcherAPISession
+from ..wowcher_session import session
 
 logger = logging.getLogger(__name__)
 
@@ -58,12 +58,12 @@ class BaseAPIMethod:
     @classmethod
     def get_URL(cls):
         """Return the complete URL for the API method."""
-        return f"{WowcherAPISession.DOMAIN}{cls.uri}"
+        return f"{session.DOMAIN}{cls.uri}"
 
     def make_request(self):
         """Make an API request."""
-        WowcherAPISession.get_credentials()
-        headers = WowcherAPISession.get_auth_headers()
+        session.get_credentials()
+        headers = session.get_auth_headers()
         url = self.get_URL()
         logger.info(f"Making request to {url}")
         logger.debug(f"Sending request data {self.data} to {url}")
