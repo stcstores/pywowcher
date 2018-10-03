@@ -18,6 +18,15 @@ class TestSession(BasePywowcherTest):
         """Remove the wowcher credentials file from the working directory."""
         os.remove(pywowcher.session.WOWCHER_CREDENTIALS_FILENAME)
 
+    def test_clear_session(self):
+        """Test that session.clear clears the session."""
+        pywowcher.session.get_credentials()
+        assert pywowcher.session.key is not None
+        assert pywowcher.session.secret_token is not None
+        pywowcher.session.clear()
+        assert pywowcher.session.key is None
+        assert pywowcher.session.secret_token is None
+
     def test_get_credentials_fails_when_no_file_is_present(self, no_config_file):
         """Test that getting credentials throws and error when no credentials file exists."""
         with pytest.raises(FileNotFoundError):
