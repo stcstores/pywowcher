@@ -30,19 +30,18 @@ class BasePywowcherTest:
         self.create_config_file()
 
     def teardown_method(self):
-        """Reset WowcherAPISession class attributes."""
-        pywowcher.WowcherAPISession.key = None
-        pywowcher.WowcherAPISession.secret_token = None
-        if os.path.exists(pywowcher.WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME):
-            os.remove(pywowcher.WowcherAPISession.WOWCHER_CREDENTIALS_FILENAME)
+        """Reset session class attributes."""
+        pywowcher.session.clear()
+        if os.path.exists(pywowcher.session.WOWCHER_CREDENTIALS_FILENAME):
+            os.remove(pywowcher.session.WOWCHER_CREDENTIALS_FILENAME)
 
     def create_config_file(self):
         """Add a config file to the working directory."""
-        pywowcher.WowcherAPISession.create_credentials_file(
+        pywowcher.session.create_credentials_file(
             key=self.fake_key, secret_token=self.fake_secret_token
         )
-        pywowcher.WowcherAPISession.key = None
-        pywowcher.WowcherAPISession.secret_token = None
+        pywowcher.session.key = None
+        pywowcher.session.secret_token = None
 
     @pytest.fixture
     def mock_echo_test(self, requests_mock, echo_test_response):
