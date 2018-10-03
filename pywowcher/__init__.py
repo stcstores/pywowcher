@@ -1,5 +1,9 @@
 """Pywowcher - A Wowcher API integration for Python."""
 
+from .__version__ import __title__, __description__, __url__  # NOQA
+from .__version__ import __version__, __author__, __author_email__  # NOQA
+from .__version__ import __copyright__, __license__, __release__  # NOQA
+
 import logging
 from .wowcher_session import session  # NOQA
 from . import api_methods  # NOQA
