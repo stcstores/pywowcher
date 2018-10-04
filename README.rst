@@ -4,6 +4,10 @@
 .. image:: https://coveralls.io/repos/github/lukeshiner/pywowcher/badge.svg?branch#ci-coveralls
     :target: https://coveralls.io/github/lukeshiner/pywowcher?branch#ci-coveralls
 
+.. image:: https://readthedocs.org/projects/pywowcher/badge/?version=latest
+    :target: https://pywowcher.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 
 #########################################
 Pywowcher - Wowcher API Client for Python
