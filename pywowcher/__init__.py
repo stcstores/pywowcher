@@ -7,12 +7,9 @@ from .__version__ import __copyright__, __license__, __release__  # NOQA
 import logging
 from .wowcher_session import session  # NOQA
 from . import api_methods  # NOQA
-from .operations import (  # NOQA
-    echo_test,
-    get_orders,
-    set_order_status,
-    make_order_status,
-)
+from .operations.echotest import echo_test  # NOQA
+from .operations.getorders import get_orders, WowcherOrder, WowcherItem  # NOQA
+from .operations.setorderstatus import set_order_status, make_order_status  # NOQA
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
