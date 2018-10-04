@@ -30,7 +30,7 @@ class SetOrderStatus:
                 self.orders_to_send.append(self.prepare_order(order))
             except Exception:
                 raise ValueError(
-                    f"Invalid order for status update at index {order_number}"
+                    "Invalid order for status update at index {}".format(order_number)
                 )
         api_methods.Status(orders=orders).call()
 
@@ -58,7 +58,7 @@ def make_order_status(
     timestamp=None,
     tracking_number=None,
     shipping_vendor=None,
-    shipping_method=None,
+    shipping_method=None
 ):
     """
     Return an order formatted for the set_order_status operation.
