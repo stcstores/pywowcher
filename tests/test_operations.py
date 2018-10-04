@@ -66,16 +66,15 @@ class TestSetOrderStatusOperation(BasePywowcherTest):
     def test_set_order_status_operation(self, mock_status):
         """Test the set_order_status operation."""
         mock_status()
-        orders = [
-            {
-                "reference": "8UPGT3-KKQRNC",
-                "timestamp": 1_234_567_890,
-                "status": 2,
-                "tracking_number": "JD1233230001012",
-                "shipping_vendor": "ROYAL_MAIL",
-                "shipping_method": "NEXT_DAY",
-            }
-        ]
+        order = pywowcher.make_order_status(
+            reference="8UPGT3-KKQRNC",
+            timestamp=1_234_567_890,
+            status=pywowcher.DISPATCHED,
+            tracking_number="JD1233230001012",
+            shipping_vendor="ROYAL_MAIL",
+            shipping_method="NEXT_DAY",
+        )
+        orders = [order]
         assert pywowcher.set_order_status(orders) is None
 
     def test_set_order_status_raises_for_malformed_order(self, mock_status):
