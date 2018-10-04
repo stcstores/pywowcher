@@ -1,4 +1,18 @@
-"""Pywowcher - A Wowcher API integration for Python."""
+"""
+Pywowcher - Wowcher API Client for Python.
+
+Note: This project is under development. Do not use in production.
+
+Features
+========
+
+Pywowcher allows you to:
+
+- Retrieve orders for a current deal (:func:`pywowcher.get_orders`).
+- Update the status of an order (:func:`pywowcher.set_order_status`).
+- Make an echo test to the Wowcher server (:func:`pywowcher.echo_test`).
+
+"""
 
 from .__version__ import __title__, __description__, __url__  # NOQA
 from .__version__ import __version__, __author__, __author_email__  # NOQA

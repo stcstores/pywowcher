@@ -21,21 +21,8 @@ class SetOrderStatus:
         """
         Set the status of one or more orders.
 
-        Kwargs:
-            orders: list containing dicts of order parameters in the form:
-                {
-                    pywowcher.REFERENCE: The Wowcher Code, e.g., 8UPGT3-KKQRNC,
-                    pywowcher.STATUS: The updated status of the order, choose from
-                        pywowcher.RECIEVED_BY_MERCHANT, pywowcher.READY_FOR_DISPATCH or
-                        pywowcher.DISPATCHED,
-                    pywowcher.TIMESTAMP: The Unix Timestamp of the update (optional,
-                        defaults to the time of the request),
-                    pywowcher.TRACKING_NUMBER: The tracking number (optional),
-                    pywowcher.SHIPPING_VENDOR: The courier used to ship the order
-                        (optional),
-                    pywowcher.SHIPPING_METHOD: The courier shipping method used to ship
-                        the order (optional),
-                }
+        :param orders: list containing dicts of orders formatted for a status update.
+            These can be created with :func:`pywowcher.make_order_status`.
         """
         self.orders_to_send = []
         for order_number, order in enumerate(orders):
@@ -80,7 +67,7 @@ def make_order_status(
     set_order_status as part of an iterable.
 
     :param reference: The wowcher reference code for the order
-        (:attr:`pywowcher.operations.getorders.WowcherOrder.reference`).
+        (:attr:`pywowcher.WowcherOrder.reference`).
     :type reference: int or str
 
     :param status: The updated status of the order. Can be
