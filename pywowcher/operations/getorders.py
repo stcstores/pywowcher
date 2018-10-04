@@ -23,6 +23,9 @@ class WowcherItem:
         self.quantity = item_data[self.QUANTITY]
         self.options = item_data[self.OPTIONS]
 
+    def __repr__(self):
+        return f"Wowcher item {self.sku}"
+
 
 class WowcherOrder:
     """A wrapper for Wowcher orders as returned from an Order API request."""
