@@ -6,9 +6,19 @@
 Welcome to pywowcher's documentation!
 =====================================
 
+.. automodule:: pywowcher
+  :members:
+  :undoc-members:
+  :special-members:
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   getting_started
+   echo_test
+   get_orders
+   set_order_status
 
 
 
