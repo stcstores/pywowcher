@@ -58,7 +58,7 @@ def make_order_status(
     timestamp=None,
     tracking_number=None,
     shipping_vendor=None,
-    shipping_method=None,
+    shipping_method=None
 ):
     """
     Return an order formatted for the set_order_status operation.
