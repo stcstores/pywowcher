@@ -2,8 +2,7 @@
 
 init:
 	pip install pipenv --upgrade
-	pipenv lock -dr > requirements.txt
-	pipenv sync
+	pipenv sync --dev
 
 reinit:
 	pipenv --rm
