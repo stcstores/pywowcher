@@ -36,7 +36,7 @@ class WowcherItem:
         self.options = item_data[self.OPTIONS]
 
     def __repr__(self):
-        return f"Wowcher item {self.sku}"
+        return "Wowcher item {}".format(self.sku)
 
 
 class WowcherOrder:
@@ -140,7 +140,7 @@ class WowcherOrder:
             setattr(self, field, order_data[field])
 
     def __repr__(self):
-        return f"Wowcher Order {self.wowcher_code}"
+        return "Wowcher Order {}".format(self.wowcher_code)
 
 
 class GetOrders:

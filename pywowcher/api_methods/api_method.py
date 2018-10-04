@@ -58,15 +58,15 @@ class BaseAPIMethod:
     @classmethod
     def get_URL(cls):
         """Return the complete URL for the API method."""
-        return f"{session.DOMAIN}{cls.uri}"
+        return "{}{}".format(session.DOMAIN, cls.uri)
 
     def make_request(self):
         """Make an API request."""
         session.get_credentials()
         headers = session.get_auth_headers()
         url = self.get_URL()
-        logger.info(f"Making request to {url}")
-        logger.debug(f"Sending request data {self.data} to {url}")
+        logger.info("Making request to {}".format(url))
+        logger.debug("Sending request data {} to {}".format(self.data, url))
         self.response = requests.request(
             method=self.method,
             url=url,
@@ -76,9 +76,8 @@ class BaseAPIMethod:
             headers=headers,
         )
         logger.debug(
-            (
-                f"Recieved response from {url} Status: "
-                f"{self.response.status_code} text: {self.response.text}"
+            ("Recieved response from {} Status: " "{} text: {}").format(
+                url, self.response.status_code, self.response.text
             )
         )
         self.response.raise_for_status()

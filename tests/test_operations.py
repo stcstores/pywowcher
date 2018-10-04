@@ -57,7 +57,7 @@ class TestGetOrdersOperation(BasePywowcherTest):
         order_data = orders_method_response["data"]["data"][0]
         order = pywowcher.operations.getorders.WowcherOrder(order_data)
         wowcher_code = order_data["wowcher_code"]
-        assert order.__repr__() == f"Wowcher Order {wowcher_code}"
+        assert order.__repr__() == "Wowcher Order {}".format(wowcher_code)
 
 
 class TestSetOrderStatusOperation(BasePywowcherTest):
