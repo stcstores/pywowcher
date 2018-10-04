@@ -68,7 +68,7 @@ class TestSetOrderStatusOperation(BasePywowcherTest):
         mock_status()
         order = pywowcher.make_order_status(
             reference="8UPGT3-KKQRNC",
-            timestamp=1_234_567_890,
+            timestamp=1234567890,
             status=pywowcher.DISPATCHED,
             tracking_number="JD1233230001012",
             shipping_vendor="ROYAL_MAIL",
