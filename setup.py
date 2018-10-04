@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Setup for tabler package."""
+"""Setup for pywowcher package."""
 
 import os
 
@@ -23,7 +23,7 @@ setuptools.setup(
     author=about["__author__"],
     author_email=about["__author_email__"],
     keywords=["Wowcher", "api", "shopping"],
-    install_requires=["requests"],
+    install_requires=["requests", "pyaml"],
     packages=setuptools.find_packages(),
     include_package_data=True,
     python_requires=">=3.6.0",
