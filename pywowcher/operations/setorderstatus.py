@@ -76,8 +76,8 @@ def make_order_status(
     """
     Return an order formatted for the set_order_status operation.
 
-    Format an order for the set_order_status operation. This can be added to an iterable
-    and passed to set_order_status as is or as part of an iterable.
+    Format an order for the set_order_status operation. This can be passed to
+    set_order_status as part of an iterable.
 
     :param reference: The wowcher reference code for the order
         (:attr:`pywowcher.operations.getorders.WowcherOrder.reference`).
