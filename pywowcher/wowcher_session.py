@@ -19,7 +19,7 @@ class WowcherAPISession:
 
     def get_auth_headers(self):
         """Return authorisation headers."""
-        auth_string = f"{self.key}:{self.secret_token}"
+        auth_string = "{}:{}".format(self.key, self.secret_token)
         encoded_auth_string = base64.b64encode(auth_string.encode("utf-8"))
         return {"Authorization": encoded_auth_string}
 
@@ -44,21 +44,21 @@ class WowcherAPISession:
         if credentials_path is None:
             logging.error("Wowcher credentials file not found.")
             raise FileNotFoundError(
-                f"{self.WOWCHER_CREDENTIALS_FILENAME} was not found."
+                "{} was not found.".format(self.WOWCHER_CREDENTIALS_FILENAME)
             )
         else:
-            logger.debug(f"Credentials file found at {credentials_path}")
+            logger.debug("Credentials file found at {}".format(credentials_path))
             self.load_credentials_from_file(credentials_path)
 
     def load_credentials_from_file(self, credentials_path):
         """Add API credentials from file."""
-        logger.info(f"Loading API Credentials from {credentials_path}")
+        logger.info("Loading API Credentials from {}".format(credentials_path))
         with open(credentials_path, "r") as config_file:
             config = yaml.load(config_file)
         try:
             self.set_credentials(**config)
         except Exception as e:
-            logger.error(f"Could not load config from {credentials_path}.")
+            logger.error("Could not load config from {}.".format(credentials_path))
             raise e
 
     def set_credentials(self, key=None, secret_token=None):

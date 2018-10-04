@@ -57,7 +57,7 @@ class TestGetOrdersOperation(BasePywowcherTest):
         order_data = orders_method_response["data"]["data"][0]
         order = pywowcher.operations.getorders.WowcherOrder(order_data)
         wowcher_code = order_data["wowcher_code"]
-        assert order.__repr__() == f"Wowcher Order {wowcher_code}"
+        assert order.__repr__() == "Wowcher Order {}".format(wowcher_code)
 
 
 class TestSetOrderStatusOperation(BasePywowcherTest):
@@ -68,7 +68,7 @@ class TestSetOrderStatusOperation(BasePywowcherTest):
         mock_status()
         order = pywowcher.make_order_status(
             reference="8UPGT3-KKQRNC",
-            timestamp=1_234_567_890,
+            timestamp=1234567890,
             status=pywowcher.DISPATCHED,
             tracking_number="JD1233230001012",
             shipping_vendor="ROYAL_MAIL",

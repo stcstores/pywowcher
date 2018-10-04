@@ -26,7 +26,7 @@ class TestOrdersAPIMethod(BasePywowcherTest):
     FROM_DATE = datetime.datetime.now() - datetime.timedelta(days=1)
     START_DATE = datetime.datetime.now() - datetime.timedelta(days=1)
     END_DATE = datetime.datetime.now()
-    DEAL_ID = 9_856_321
+    DEAL_ID = "9856321"
 
     def test_Orders_get_data_method(self):
         """Test the get_data method of Orders."""
@@ -71,7 +71,7 @@ class TestStatusAPIMethod(BasePywowcherTest):
         orders = [
             {
                 "reference": "8UPGT3-KKQRNC",
-                "timestamp": 1_234_567_890,
+                "timestamp": 1234567890,
                 "status": 2,
                 "tracking_number": "JD1233230001012",
                 "shipping_vendor": "ROYAL_MAIL",
