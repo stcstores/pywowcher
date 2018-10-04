@@ -7,11 +7,13 @@ def echo_test(message):
     """
     Make an echo test to the Wowcher servers.
 
-    Sends a request containg JSON data to Wowcher, the response to which should
-    contain the same JSON data.
+    Test access to the Wowcher servers by sending JSON serialized data. If the request
+    is completed successfully the same data should be returned.
 
-    Args:
-        message (dict or list): Data to be sent as JSON to Wowcher.
+    :param message: Data to be sent as JSON to Wowcher.
+    :type message: dict or list
+
+    :rtype: dict or list
     """
     request = api_methods.EchoTest(message)
     response = request.call()

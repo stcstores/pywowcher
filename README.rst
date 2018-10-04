@@ -48,12 +48,10 @@ Retrieving orders::
 
 Updating order status::
 
-  >>> pywowcher.set_order_status([
-  ...     {
-  ...       pywowcher.REFERENCE: order.wowcher_code,
-  ...       pywowcher.STATUS: pywowcher.DISPATCHED
-  ...     }
-  ... ])
+  >>> order_status = pywowcher.make_order_status(
+  ...   reference=orders[0].wowcher_code, status=pywowhcer.DISPATCHED
+  ... )
+  >>> pywowcher.set_order_status([order_status])
   >>>
 
 Testing API access::
