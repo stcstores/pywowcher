@@ -121,10 +121,12 @@ class WowcherAPISession:
         """
         Set the API key, secret token and domain to use for API requests.
 
-        :param key str: Your Wowcher API key.
-        :param secret_token str: Your Wowcher API token.
-        :param staging bool: If True API requests will address the staging server, if it
-            is False the live server will be addresed.
+        :param live_key str: Your Wowcher API key for the live server.
+        :param live_secret_token str: Your Wowcher API token for the live server.
+        :param live_key str: Your Wowcher API key for the staging server.
+        :param live_secret_token str: Your Wowcher API token for the staging server.
+        :param use_staging bool: If True API requests will address the staging server, if
+            it is False the live server will be addresed.
         """
         for key, value in locals().items():
             if value is not None:
@@ -149,10 +151,12 @@ class WowcherAPISession:
         credentials and domain it specifies will be used by `pywowcher` for API requests
         unless overriden by a call to :attr:`pywowcher.session.set_credentials`.
 
-        :param key str: Your Wowcher API key.
-        :param secret_token str: Your Wowcher API token.
-        :param staging bool: If True API requests will address the staging server, if it
-            is False the live server will be addresed.
+        :param live_key str: Your Wowcher API key for the live server.
+        :param live_secret_token str: Your Wowcher API token for the live server.
+        :param live_key str: Your Wowcher API key for the staging server.
+        :param live_secret_token str: Your Wowcher API token for the staging server.
+        :param use_staging bool: If True API requests will address the staging server, if
+            it is False the live server will be addresed.
         """
         path = os.path.join(os.getcwd(), self.WOWCHER_CREDENTIALS_FILENAME)
         live = {"key": live_key, "secret_token": live_secret_token}
