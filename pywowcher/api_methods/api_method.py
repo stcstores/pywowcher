@@ -58,7 +58,7 @@ class BaseAPIMethod:
     @classmethod
     def get_URL(cls):
         """Return the complete URL for the API method."""
-        return "{}{}".format(session.DOMAIN, cls.uri)
+        return "{}{}".format(session.domain, cls.uri)
 
     def make_request(self):
         """Make an API request."""
