@@ -5,18 +5,23 @@ import os
 import tempfile
 
 import pytest
+
 import pywowcher
 
 
 class BasePywowcherTest:
     """Base class for pywowcher tests."""
 
-    fake_key = "0ff52fd6-7860-4f07-bab5-5fa74d3b98f0"
-    fake_secret_token = "16459c82-065a-4e51-b682-c784e404831d"
+    fake_live_key = "0ff52fd6-7860-4f07-bab5-5fa74d3b98f0"
+    fake_live_secret_token = "16459c82-065a-4e51-b682-c784e404831d"
+    fake_staging_key = "a5635153-cf96-4ecf-87b6-b80f0fa1a5ea"
+    fake_staging_secret_token = "220d4eb6-3c94-4f0c-b5e8-1befa1a8713c"
+    use_staging = True
 
     @classmethod
     def setup_class(cls):
         """Use a temproary directory as the working directory."""
+        pywowcher.session.clear()
         cls.original_working_dir = os.getcwd()
         os.chdir(tempfile.mkdtemp())
 
@@ -27,6 +32,7 @@ class BasePywowcherTest:
 
     def setup_method(self):
         """Add a config file to the working directory."""
+        pywowcher.session.clear()
         self.create_config_file()
 
     def teardown_method(self):
@@ -38,10 +44,14 @@ class BasePywowcherTest:
     def create_config_file(self):
         """Add a config file to the working directory."""
         pywowcher.session.create_credentials_file(
-            key=self.fake_key, secret_token=self.fake_secret_token
+            live_key=self.fake_live_key,
+            live_secret_token=self.fake_live_secret_token,
+            staging_key=self.fake_staging_key,
+            staging_secret_token=self.fake_staging_secret_token,
+            use_staging=self.use_staging,
         )
-        pywowcher.session.key = None
-        pywowcher.session.secret_token = None
+        pywowcher.session.clear()
+        pywowcher.session.get_credentials()
 
     @pytest.fixture
     def mock_echo_test(self, requests_mock, echo_test_response):
