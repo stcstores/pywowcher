@@ -80,7 +80,7 @@ class WowcherAPISession:
         """Find API credentials file and load credentials from it."""
         credentials_path = self.get_wowcher_credentials_file()
         if credentials_path is None:
-            logging.error("Wowcher credentials file not found.")
+            logging.info("Wowcher credentials file not found.")
             raise FileNotFoundError(
                 "{} was not found.".format(self.WOWCHER_CREDENTIALS_FILENAME)
             )
