@@ -16,7 +16,7 @@ with open(os.path.join(here, "pywowcher", "__version__.py"), "r") as f:
 
 setuptools.setup(
     name=about["__title__"],
-    version=about["__version__"],
+    version=about["__release__"],
     description=about["__description__"],
     long_description=long_description,
     url=about["__url__"],
@@ -28,6 +28,7 @@ setuptools.setup(
     include_package_data=True,
     python_requires=">=3.5.0",
     classifiers=[
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
