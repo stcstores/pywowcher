@@ -1,7 +1,7 @@
 .PHONY: docs
 
 init:
-	pip install pipenv --upgrade
+	pip install git+git://github.com/pypa/pipenv
 	pipenv sync --dev
 
 reinit:
