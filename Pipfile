@@ -7,6 +7,7 @@ name = "pypi"
 requests = "*"
 "e1839a8" = {path = ".", editable = true}
 pyaml = "*"
+pyyaml = "==4.2b1"  # CVE-2017-18342 Remove after pyyaml release >4.2
 
 [dev-packages]
 pytest = "*"
