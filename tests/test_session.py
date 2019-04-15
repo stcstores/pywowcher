@@ -70,7 +70,7 @@ class TestSession(BasePywowcherTest):
         filename = pywowcher.session.WOWCHER_CREDENTIALS_FILENAME
         assert os.path.exists(filename)
         with open(filename, "r") as config_file:
-            config = yaml.load(config_file)
+            config = yaml.load(config_file, Loader=yaml.FullLoader)
         assert config == {
             "live": {
                 "key": self.fake_live_key,
