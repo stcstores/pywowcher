@@ -92,7 +92,7 @@ class WowcherAPISession:
         """Add API credentials from file."""
         logger.info("Loading API Credentials from {}".format(credentials_path))
         with open(credentials_path, "r") as config_file:
-            config = yaml.load(config_file)
+            config = yaml.load(config_file, Loader=yaml.FullLoader)
         try:
             if self.live_key is None:
                 self.live_key = config["live"]["key"]
