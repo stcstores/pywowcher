@@ -1,6 +1,9 @@
 """Tests for pywowhcer's main methods."""
 
+import datetime
+
 import pytest
+
 import pywowcher
 
 from .basetests import BasePywowcherTest
@@ -68,7 +71,7 @@ class TestSetOrderStatusOperation(BasePywowcherTest):
         mock_status()
         order = pywowcher.make_order_status(
             reference="8UPGT3-KKQRNC",
-            timestamp=1234567890,
+            timestamp=datetime.datetime.now(),
             status=pywowcher.DISPATCHED,
             tracking_number="JD1233230001012",
             shipping_vendor="ROYAL_MAIL",

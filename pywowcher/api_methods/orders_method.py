@@ -1,4 +1,6 @@
 """The Orders API method."""
+import datetime
+
 from .api_method import BaseAPIMethod
 
 
@@ -32,14 +34,20 @@ class Orders(BaseAPIMethod):
             end_date (datetime.datetime): Filter orders using an end date.
             deal_id (int): The Wowcher Deal ID to retrive orders for.
         """
-        return {
+        default_date = datetime.datetime.now() - datetime.timedelta(days=100)
+        if not from_date:
+            from_date = default_date
+        if not start_date:
+            start_date = datetime.datetime.now() - datetime.timedelta(days=100)
+        data = {
             "page": page,
             "per_page": per_page,
-            "from_date": from_date,
-            "start_date": start_date,
-            "end_date": end_date,
+            "from_date": int(from_date.timestamp()),
+            "start_date": int(start_date.timestamp()),
+            "end_date": int(end_date.timestamp()),
             "deal_id": deal_id,
         }
+        return data
 
     def process_response(self, response):
         """Process echo response."""

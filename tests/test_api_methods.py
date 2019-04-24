@@ -23,9 +23,12 @@ class TestOrdersAPIMethod(BasePywowcherTest):
 
     PAGE = 1
     PER_PAGE = 100
-    FROM_DATE = datetime.datetime.now() - datetime.timedelta(days=1)
-    START_DATE = datetime.datetime.now() - datetime.timedelta(days=1)
-    END_DATE = datetime.datetime.now()
+    FROM_DATE = datetime.datetime(year=2019, day=1, month=2)
+    FROM_DATE_TIMESTAMP = 1548979200
+    START_DATE = datetime.datetime(year=2019, day=20, month=1)
+    START_DATE_TIMESTAMP = 1547942400
+    END_DATE = datetime.datetime(year=2019, day=1, month=3)
+    END_DATE_TIMESTAMP = 1551398400
     DEAL_ID = "9856321"
 
     def test_Orders_get_data_method(self):
@@ -41,9 +44,9 @@ class TestOrdersAPIMethod(BasePywowcherTest):
         expected_data = {
             "page": self.PAGE,
             "per_page": self.PER_PAGE,
-            "from_date": self.FROM_DATE,
-            "start_date": self.START_DATE,
-            "end_date": self.END_DATE,
+            "from_date": self.FROM_DATE_TIMESTAMP,
+            "start_date": self.START_DATE_TIMESTAMP,
+            "end_date": self.END_DATE_TIMESTAMP,
             "deal_id": self.DEAL_ID,
         }
         assert method.data == expected_data

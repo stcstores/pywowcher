@@ -91,14 +91,16 @@ def make_order_status(
 
     :rtype dict:
     """
-    return {
-        SetOrderStatus.REFERENCE: reference,
-        SetOrderStatus.STATUS: status,
-        SetOrderStatus.TIMESTAMP: timestamp,
-        SetOrderStatus.TRACKING_NUMBER: tracking_number,
-        SetOrderStatus.SHIPPING_VENDOR: shipping_vendor,
-        SetOrderStatus.SHIPPING_METHOD: shipping_method,
-    }
+    status = {SetOrderStatus.REFERENCE: reference, SetOrderStatus.STATUS: status}
+    if timestamp:
+        status[SetOrderStatus.TIMESTAMP] = int(timestamp.timestamp())
+    if tracking_number is not None:
+        status[SetOrderStatus.TRACKING_NUMBER] = tracking_number
+    if shipping_vendor is not None:
+        status[SetOrderStatus.SHIPPING_VENDOR] = shipping_vendor
+    if shipping_method is not None:
+        status[SetOrderStatus.SHIPPING_METHOD] = shipping_method
+    return status
 
 
 def set_order_status(orders):
