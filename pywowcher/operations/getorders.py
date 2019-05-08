@@ -183,7 +183,7 @@ class GetOrders:
         self.end_date = end_date
         self.orders = []
         self.first_request()
-        for page in range(1, self.page_count):
+        for page in range(2, self.page_count + 1):
             self.add_orders(self.make_order_request(page))
 
     def first_request(self):

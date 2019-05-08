@@ -51,6 +51,19 @@ class TestOrdersAPIMethod(BasePywowcherTest):
         }
         assert method.data == expected_data
 
+    def test_Orders_get_params_method(self):
+        """Test the get_params method of Orders."""
+        method = pywowcher.api_methods.Orders(
+            page=self.PAGE,
+            per_page=self.PER_PAGE,
+            from_date=self.FROM_DATE,
+            start_date=self.START_DATE,
+            end_date=self.END_DATE,
+            deal_id=self.DEAL_ID,
+        )
+        expected_params = {"page": self.PAGE}
+        assert method.params == expected_params
+
     def test_process_orders_response_method(self, mock_orders, orders_method_response):
         """Test the process_response method of Orders."""
         mock_orders()

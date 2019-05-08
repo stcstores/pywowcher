@@ -36,8 +36,9 @@ class TestGetOrdersOperation(BasePywowcherTest):
         response_data = orders_method_response
         response_data["data"]["total"] = 0
         response_data["data"]["data"] = []
-        mock_orders(response_data=response_data)
+        mocker = mock_orders(response_data=response_data)
         response = pywowcher.get_orders(deal_id=1)
+        assert mocker.called is True
         assert response == []
 
     def test_get_orders_handles_pagination(self, mock_orders, orders_method_response):
@@ -50,10 +51,14 @@ class TestGetOrdersOperation(BasePywowcherTest):
         for response_number, response in enumerate(responses):
             response["data"]["current_page"] = response_number + 1
         response = [{"json": response} for response in responses]
-        mock_orders(response=response)
+        mocker = mock_orders(response=response)
         returned_value = pywowcher.get_orders(deal_id=1)
         assert isinstance(returned_value, list)
         assert len(returned_value) == 300
+        for page_number in range(1, pages + 1):
+            assert (
+                mocker.request_history[page_number - 1].query == f"page={page_number}"
+            )
 
     def test_wowcher_order_repr(self, orders_method_response):
         """Test the wowcher order __repr__ method."""

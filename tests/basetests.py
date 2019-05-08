@@ -96,7 +96,7 @@ class BasePywowcherTest:
                 response = {"json": response_data}
             if isinstance(response, dict):
                 response = [response]
-            requests_mock.get(pywowcher.api_methods.Orders.get_URL(), response)
+            return requests_mock.get(pywowcher.api_methods.Orders.get_URL(), response)
 
         return func
 

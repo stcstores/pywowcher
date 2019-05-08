@@ -49,6 +49,10 @@ class Orders(BaseAPIMethod):
         }
         return data
 
+    def get_params(self, *, page, per_page, from_date, start_date, end_date, deal_id):
+        """Return URL parameters for the request."""
+        return {"page": page}
+
     def process_response(self, response):
         """Process echo response."""
         return response.json()
