@@ -76,8 +76,21 @@ class WowcherAPISession:
                 directory=os.path.dirname(directory)
             )
 
+    def missing_credentials(self):
+        """Return True if all required credentials are set, otherwise return False."""
+        if self.use_staging:
+            keys = (self.staging_key, self.staging_secret_token)
+        else:
+            keys = (self.live_key, self.live_secret_token)
+        if any((_ is None for _ in keys)):
+            return True
+        else:
+            return False
+
     def get_credentials(self):
         """Find API credentials file and load credentials from it."""
+        if not self.missing_credentials():
+            return
         credentials_path = self.get_wowcher_credentials_file()
         if credentials_path is None:
             logging.info("Wowcher credentials file not found.")
