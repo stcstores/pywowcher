@@ -56,8 +56,8 @@ class TestGetOrdersOperation(BasePywowcherTest):
         assert isinstance(returned_value, list)
         assert len(returned_value) == 300
         for page_number in range(1, pages + 1):
-            assert (
-                mocker.request_history[page_number - 1].query == f"page={page_number}"
+            assert mocker.request_history[page_number - 1].query == "page={}".format(
+                page_number
             )
 
     def test_wowcher_order_repr(self, orders_method_response):
